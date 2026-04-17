@@ -1,0 +1,20 @@
+# Auto-generated .gitignore
+.env
+.env.*
+*.pem
+*.key
+credentials.json
+secrets.json
+__pycache__/
+*.pyc
+.venv/
+venv/
+.idea/
+.vscode/
+*.zip
+*.exe
+*.db
+*.sqlite
+*.sqlite3
+Thumbs.db
+.DS_Store
