@@ -226,20 +226,20 @@ def candidate_dashboard(user_email: str):
         section_header("Platform Features")
         st.markdown(f"""
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:12px">
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-radius:14px;padding:20px 22px">
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-radius:14px;padding:20px 22px">
                 <div style="font-size:24px;margin-bottom:8px">📄</div>
                 <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Resume Analysis</div>
-                <div style="font-size:12px;color:{MUTED}">Automatic skill extraction from your PDF resume with category detection.</div>
+                <div style="font-size:12px;color:{T()['MUTED']}">Automatic skill extraction from your PDF resume with category detection.</div>
             </div>
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-radius:14px;padding:20px 22px">
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-radius:14px;padding:20px 22px">
                 <div style="font-size:24px;margin-bottom:8px">🎯</div>
                 <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Smart Matching</div>
-                <div style="font-size:12px;color:{MUTED}">AI matches your skills to 1200+ jobs with explainable Recruiter, ATS & Optimistic scores.</div>
+                <div style="font-size:12px;color:{T()['MUTED']}">AI matches your skills to 1200+ jobs with explainable Recruiter, ATS & Optimistic scores.</div>
             </div>
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-radius:14px;padding:20px 22px">
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-radius:14px;padding:20px 22px">
                 <div style="font-size:24px;margin-bottom:8px">📚</div>
                 <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Skill Gap</div>
-                <div style="font-size:12px;color:{MUTED}">See missing skills across top matches and get free learning resources instantly.</div>
+                <div style="font-size:12px;color:{T()['MUTED']}">See missing skills across top matches and get free learning resources instantly.</div>
             </div>
         </div>""", unsafe_allow_html=True)
 
@@ -253,29 +253,29 @@ def candidate_dashboard(user_email: str):
         section_header("New Features", "Recently added to your dashboard")
         st.markdown(f"""
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-top:2px solid {SUCCESS};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['SUCCESS']};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">💪</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Profile Strength</div>
-                <div style="font-size:11px;color:{MUTED}">See how competitive your profile is</div>
+                <div style="font-size:11px;color:{T()['MUTED']}">See how competitive your profile is</div>
             </div>
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-top:2px solid {WARNING};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['WARNING']};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">💰</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Salary Estimator</div>
-                <div style="font-size:11px;color:{MUTED}">Real salary bands from 1200+ jobs</div>
+                <div style="font-size:11px;color:{T()['MUTED']}">Real salary bands from 1200+ jobs</div>
             </div>
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-top:2px solid {INFO};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['INFO']};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">✉️</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Cover Letter</div>
-                <div style="font-size:11px;color:{MUTED}">AI-generated in seconds via Groq</div>
+                <div style="font-size:11px;color:{T()['MUTED']}">AI-generated in seconds via Groq</div>
             </div>
-            <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-top:2px solid #a78bfa;
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid #a78bfa;
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">📝</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Resume Builder</div>
-                <div style="font-size:11px;color:{MUTED}">Build ATS-friendly resume, download as PDF</div>
+                <div style="font-size:11px;color:{T()['MUTED']}">Build ATS-friendly resume, download as PDF</div>
             </div>
         </div>""", unsafe_allow_html=True)
 
@@ -292,13 +292,13 @@ def candidate_dashboard(user_email: str):
             if saved:
                 skills_saved = [s.strip() for s in saved[1].split(",") if s.strip()]
                 st.markdown(f"""
-                <div style="background:{SURFACE};border:1px solid {SUCCESS};border-radius:14px;padding:20px 22px;margin-bottom:12px">
+                <div style="background:{T()['SURFACE']};border:1px solid {T()['SUCCESS']};border-radius:14px;padding:20px 22px;margin-bottom:12px">
                     <div style="display:flex;align-items:center;gap:12px">
                         <span style="font-size:28px">✅</span>
                         <div>
                             <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']}">Resume on file</div>
-                            <div style="font-size:12px;color:{MUTED}">Category: <strong style="color:{T()['TEXT_HEADING']}">{saved[2]}</strong> · {len(skills_saved)} skills detected</div>
-                            <div style="font-size:12px;color:{MUTED};margin-top:2px">Upload a new one to refresh your matches.</div>
+                            <div style="font-size:12px;color:{T()['MUTED']}">Category: <strong style="color:{T()['TEXT_HEADING']}">{saved[2]}</strong> · {len(skills_saved)} skills detected</div>
+                            <div style="font-size:12px;color:{T()['MUTED']};margin-top:2px">Upload a new one to refresh your matches.</div>
                         </div>
                     </div>
                 </div>""", unsafe_allow_html=True)
@@ -335,12 +335,12 @@ def candidate_dashboard(user_email: str):
             _save_resume_to_db(user_email, text, skills, category)
 
             st.markdown(f"""
-            <div style="background:{SURFACE};border:1px solid {SUCCESS};border-radius:14px;padding:20px 22px;margin-bottom:12px">
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['SUCCESS']};border-radius:14px;padding:20px 22px;margin-bottom:12px">
                 <div style="display:flex;align-items:center;gap:12px">
                     <span style="font-size:28px">🎉</span>
                     <div>
                         <div style="font-size:15px;font-weight:700;color:{T()['TEXT_HEADING']}">Resume uploaded successfully!</div>
-                        <div style="font-size:13px;color:{MUTED}">
+                        <div style="font-size:13px;color:{T()['MUTED']}">
                             Category detected: <strong style="color:#16a34a">{category}</strong>
                             &nbsp;·&nbsp; <strong style="color:{T()['TEXT_HEADING']}">{len(skills)}</strong> skills extracted
                         </div>
@@ -527,8 +527,8 @@ def candidate_dashboard(user_email: str):
             empty_state("🔍", "No data", "No job matches found."); st.stop()
 
         st.markdown(f"""
-        <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-radius:10px;padding:14px 18px;margin-bottom:20px">
-            <div style="font-size:12px;color:{MUTED};margin-bottom:8px">YOUR PROFILE</div>
+        <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-radius:10px;padding:14px 18px;margin-bottom:20px">
+            <div style="font-size:12px;color:{T()['MUTED']};margin-bottom:8px">YOUR PROFILE</div>
             <div style="font-size:13px;color:{T()['TEXT_HEADING']};margin-bottom:8px">
                 Category: <strong style="color:#16a34a">{resume_cat_label}</strong>
                 &nbsp;·&nbsp; {len(resume_skills)} skills
@@ -558,10 +558,10 @@ def candidate_dashboard(user_email: str):
             url = SKILL_RESOURCES.get(skill.lower())
             with cols[i % 3]:
                 st.markdown(f"""
-                <div style="background:{SURFACE};border:1px solid {CARD_BORDER};border-radius:10px;
+                <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-radius:10px;
                             padding:12px 14px;margin-bottom:8px">
                     <div style="font-weight:600;font-size:13px;color:{T()['TEXT_HEADING']};margin-bottom:3px">{skill}</div>
-                    <div style="font-size:11px;color:{MUTED};margin-bottom:6px">Needed in {count} job(s)</div>
+                    <div style="font-size:11px;color:{T()['MUTED']};margin-bottom:6px">Needed in {count} job(s)</div>
                     {"<a href='"+url+"' target='_blank' style='font-size:12px;color:#3b82f6;text-decoration:none'>📚 Learn for free →</a>" if url else "<span style='font-size:11px;color:"+MUTED+"'>Search online to learn</span>"}
                 </div>""", unsafe_allow_html=True)
 

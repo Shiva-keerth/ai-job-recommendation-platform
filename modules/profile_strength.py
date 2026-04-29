@@ -8,6 +8,7 @@ with actionable tips to improve each section.
 
 import streamlit as st
 import math
+from modules.theme import T
 
 
 # ── Dimension definitions ──────────────────────────────────────────────────────
@@ -261,17 +262,18 @@ def _dim_card(dim: dict, score: int, label: str) -> str:
     elif pct >= 0.3: bar_color = "#f59e0b"
     else:            bar_color = "#ef4444"
 
+    p = T()
     return f"""
-    <div style="border:1px solid #2a2a2a;border-radius:12px;padding:14px 16px;margin-bottom:10px;background:#111">
+    <div style="border:1px solid {p['CARD_BORDER']};border-radius:12px;padding:14px 16px;margin-bottom:10px;background:{p['SURFACE']}">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <span style="font-size:15px;font-weight:600">{dim['icon']} {dim['label']}</span>
-        <span style="font-size:13px;color:#aaa">{score}/{dim['max']} &nbsp;·&nbsp; <span style="color:{bar_color}">{label}</span></span>
+        <span style="font-size:15px;font-weight:600;color:{p['TEXT_HEADING']}">{dim['icon']} {dim['label']}</span>
+        <span style="font-size:13px;color:{p['MUTED']}">{score}/{dim['max']} &nbsp;·&nbsp; <span style="color:{bar_color}">{label}</span></span>
       </div>
-      <div style="background:#222;border-radius:6px;height:8px;overflow:hidden">
+      <div style="background:{p['PROGRESS_BG']};border-radius:6px;height:8px;overflow:hidden">
         <div style="width:{w}%;background:{bar_color};height:100%;border-radius:6px;
                     transition:width 0.6s ease"></div>
       </div>
-      <div style="font-size:11px;color:#666;margin-top:6px">{dim['desc']}</div>
+      <div style="font-size:11px;color:{p['MUTED']};margin-top:6px">{dim['desc']}</div>
     </div>"""
 
 

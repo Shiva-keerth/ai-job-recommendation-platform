@@ -15,18 +15,18 @@ CSV_USERS   = BASE_DIR / "db" / "users.csv"
 JOBS_CSV    = BASE_DIR / "data" / "jobs_dataset.csv"
 
 # ── Matching weights (must sum to 1.0) ────────────────────────────────
-#   Core skill overlap        — 60%  (reduced from 72% to make room)
-#   Secondary skill overlap   — 13%  (reduced from 18%)
-#   TF-IDF semantic similarity—  9%  (reduced from 10%)
-#   Experience level match    —  8%  (NEW)
-#   Projects relevance        —  6%  (NEW)
-#   Certifications bonus      —  4%  (NEW)
+#   Core skill overlap        — 70%  (increased to match real-world ATS algorithms)
+#   Secondary skill overlap   — 2%   (soft skills reduced significantly)
+#   TF-IDF semantic similarity— 10%  
+#   Experience level match    — 8%   
+#   Projects relevance        — 6%   
+#   Certifications bonus      — 4%   
 CORE_SKILLS_N       = 8
-SOFT_SKILL_WEIGHT   = 0.25
+SOFT_SKILL_WEIGHT   = 0.05
 
-WEIGHT_CORE         = 0.60
-WEIGHT_SECONDARY    = 0.13
-WEIGHT_TFIDF        = 0.09
+WEIGHT_CORE         = 0.70
+WEIGHT_SECONDARY    = 0.02
+WEIGHT_TFIDF        = 0.10
 WEIGHT_EXPERIENCE   = 0.08   # experience level + years match
 WEIGHT_PROJECTS     = 0.06   # project domain relevance
 WEIGHT_CERTS        = 0.04   # certifications relevance
@@ -46,10 +46,10 @@ EXPERIENCE_LEVEL_MAP = {
 }
 
 # ── ATS penalty constants ──────────────────────────────────────────────
-OPTIMISTIC_BOOST    = 0.08
-ATS_BASE_PENALTY    = 0.05
-ATS_MISS_PENALTY    = 0.20
-ATS_CORE_PENALTY    = 0.15
+OPTIMISTIC_BOOST    = 0.15
+ATS_BASE_PENALTY    = 0.00
+ATS_MISS_PENALTY    = 0.05
+ATS_CORE_PENALTY    = 0.10
 
 # ── Results counts ─────────────────────────────────────────────────────
 TOP_N_PRIMARY   = 12

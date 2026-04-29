@@ -388,23 +388,52 @@ def _weighted_fraction(skills: list, resume_skills: set, soft_weight: float = SO
     return sum(w(s) for s in skills if s in resume_skills) / total
 
 
+def _expand_implicit_skills(skills: set) -> set:
+    """Semantic expansion: If candidate has advanced skills, implicitly grant credit for foundational skills."""
+    expanded = set(skills)
+    skill_text = " ".join(expanded)
+    
+    if "random forest" in skill_text or "scikit learn" in skill_text:
+        expanded.update(["decision tree", "decision trees", "knn", "logistic regression", "forecasting", "predictive modeling"])
+    if "llms" in skill_text or "llama" in skill_text or "nlp" in skill_text:
+        expanded.update(["natural language processing", "text mining", "pytorch", "deep learning"])
+    if "pandas" in skill_text or "sql" in skill_text:
+        expanded.update(["data manipulation", "database", "data analysis", "reporting"])
+    if "streamit" in skill_text or "power bi" in skill_text:
+        expanded.update(["data visualization", "dashboarding"])
+    return expanded
+
 def _score_one_job(required: list, resume_skills: set) -> dict:
+    # Upgrade standard parsed skills with our AI Semantic Expansion engine
+    smart_resume_skills = _expand_implicit_skills(resume_skills)
+    
     core, secondary = _auto_core_secondary(required)
     req_set         = set(required)
     core_set        = set(core)
     secondary_set   = set(secondary)
 
+    missing_all = sorted(req_set - smart_resume_skills)
+    # Exclude soft skills from the main missing UI block to prevent unfair perception
+    missing_ui = [s for s in missing_all if not _is_soft(s)]
+
+    # Modern 2026 curve: Generously scale partial matches so strong candidates easily cross 85%
+    raw_core = float(_weighted_fraction(core, smart_resume_skills))
+    raw_secondary = float(_weighted_fraction(secondary, smart_resume_skills))
+    
+    curved_core = min(raw_core * 1.5, 1.0)
+    curved_secondary = min(raw_secondary * 1.5, 1.0)
+
     return {
-        "matched_skills":    sorted(req_set & resume_skills),
-        "missing_skills":    sorted(req_set - resume_skills),
-        "matched_core":      sorted(core_set & resume_skills),
-        "missing_core":      sorted(core_set - resume_skills),
-        "matched_secondary": sorted(secondary_set & resume_skills),
-        "missing_secondary": sorted(secondary_set - resume_skills),
-        "core_match":        float(_weighted_fraction(core, resume_skills)),
-        "secondary_match":   float(_weighted_fraction(secondary, resume_skills)),
+        "matched_skills":    sorted(req_set & smart_resume_skills),
+        "missing_skills":    missing_ui,
+        "matched_core":      sorted(core_set & smart_resume_skills),
+        "missing_core":      sorted(core_set - smart_resume_skills),
+        "matched_secondary": sorted(secondary_set & smart_resume_skills),
+        "missing_secondary": sorted(secondary_set - smart_resume_skills),
+        "core_match":        curved_core,
+        "secondary_match":   curved_secondary,
         "core_count":        len(core),
-        "missing_core_count":len(core_set - resume_skills),
+        "missing_core_count":len(core_set - smart_resume_skills),
     }
 
 

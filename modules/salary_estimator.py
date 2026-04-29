@@ -118,7 +118,7 @@ def _by_industry(df: pd.DataFrame) -> pd.DataFrame:
 def _band_card(est: dict, exp_level: str) -> str:
     return f"""
     <div style="background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-                border-radius:16px;padding:28px 32px;margin:16px 0;color:white">
+                border-radius:16px;padding:28px 32px;margin:16px 0;color:{T()['TEXT']}">
       <div style="font-size:13px;color:#94a3b8;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">
         Estimated Salary Band · {exp_level}
       </div>
@@ -165,10 +165,12 @@ def render_salary_estimator(user_email: str):
 
     # ── Show detected specialization ──
     if subcategory:
+        from modules.theme import T as _T
+        _p = _T()
         st.markdown(
-            f'<div style="background:#1d3a6e;border:1px solid #3b82f6;border-radius:10px;'
-            f'padding:10px 16px;margin-bottom:12px;font-size:13px;color:#93c5fd">'
-            f'🏷️ Detected Specialization: <strong style="color:#f0f6fc">{cat_label}</strong>'
+            f'<div style="background:{_p["SURFACE"]};border:1px solid #3b82f6;border-radius:10px;'
+            f'padding:10px 16px;margin-bottom:12px;font-size:13px;color:{_p["MUTED"]}">'
+            f'🏷️ Detected Specialization: <strong style="color:{_p["TEXT_HEADING"]}">{cat_label}</strong>'
             f'</div>',
             unsafe_allow_html=True,
         )

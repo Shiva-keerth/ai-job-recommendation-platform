@@ -21,6 +21,7 @@ from config import GROQ_API_KEY, JOBS_CSV, SKILL_RESOURCES
 from modules.skill_extractor import build_skill_vocab_from_jobs, extract_skills
 from modules.category_detector import detect_category, detect_full_category
 from modules.db import get_conn
+from modules.theme import T
 
 
 # ── helpers ───────────────────────────────────────────────────────────
@@ -45,7 +46,8 @@ def _load_latest_resume(user_email: str):
 def _score_bar(pct: int, color: str = "#185FA5") -> str:
     """Returns an HTML progress bar."""
     safe = max(0, min(100, pct))
-    bg   = "#e9ecef"
+    p = T()
+    bg = p.get('SCORE_BAR_BG', '#e9ecef')
     return (
         f'<div style="height:10px;background:{bg};border-radius:6px;margin:4px 0 8px">'
         f'<div style="width:{safe}%;height:100%;background:{color};border-radius:6px;'
@@ -267,23 +269,27 @@ def render_resume_scorecard(user_email: str):
 
             if matched:
                 st.markdown("**✅ Matched**")
+                p = T()
+                bg_color = p['TAG_BG']
+                text_color = p['TEXT']
                 pills = " ".join(
-                    f'<span style="background:#E1F5EE;color:#085041;font-size:11px;'
-                    f'padding:2px 8px;border-radius:99px;margin:2px;display:inline-block">{s}</span>'
+                    f'<span style="background:{bg_color};color:{text_color};font-size:11px;'
+                    f'padding:2px 8px;border-radius:99px;margin:2px;display:inline-block;border:1px solid {p["TAG_BORDER"]}">{s}</span>'
                     for s in matched[:15]
                 )
                 st.markdown(pills, unsafe_allow_html=True)
 
             if missing:
                 st.markdown("**⚠️ Missing**")
+                p = T()
                 miss_pills = []
                 for s in missing[:12]:
                     url = SKILL_RESOURCES.get(s.lower())
                     link = f'<a href="{url}" target="_blank" style="text-decoration:none">' if url else ""
                     end  = "</a>" if url else ""
                     miss_pills.append(
-                        f'{link}<span style="background:#FCEBEB;color:#501313;font-size:11px;'
-                        f'padding:2px 8px;border-radius:99px;margin:2px;display:inline-block">{s}</span>{end}'
+                        f'{link}<span style="background:rgba(239, 68, 68, 0.1);color:#ef4444;font-size:11px;'
+                        f'padding:2px 8px;border-radius:99px;margin:2px;display:inline-block;border:1px solid rgba(239,68,68,0.2)">{s}</span>{end}'
                     )
                 st.markdown(" ".join(miss_pills), unsafe_allow_html=True)
                 if url:
