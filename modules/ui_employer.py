@@ -16,7 +16,7 @@ from modules.theme import (
     topbar, page_header, section_header, render_stat_row,
     empty_state, skill_chips, badge, card, score_bar_html, match_badge,
     MUTED, SUCCESS, WARNING, INFO, PRIMARY, SURFACE, CARD_BORDER, TEXT,
-    T, render_theme_toggle,
+    T, render_theme_toggle, get_theme,
 )
 
 
@@ -66,13 +66,14 @@ def employer_dashboard():
             icons=["house-fill","plus-circle-fill","briefcase-fill","inbox-fill",
                    "trophy-fill","bar-chart-fill","graph-up"],
             default_index=0,
+            key=f"emp_nav_{get_theme()}",
             styles={
-                "container": {"padding":"6px 4px","background":"transparent"},
-                "icon":      {"font-size":"15px"},
+                "container": {"padding":"6px 4px","background": p["SIDEBAR_BG"]},
+                "icon":      {"font-size":"15px", "color": f"{p['MUTED']} !important"},
                 "nav-link":  {"font-size":"13px","padding":"9px 12px",
-                              "border-radius":"8px","margin":"1px 0","color":"#8b949e"},
-                "nav-link-selected": {"background":"rgba(232,57,77,0.12)",
-                                      "color":"#E8394D","font-weight":"600"},
+                              "border-radius":"8px","margin":"1px 0","color": f"{p['TEXT']} !important"},
+                "nav-link-selected": {"background":"rgba(232,57,77,0.12) !important",
+                                      "color":"#E8394D !important","font-weight":"600"},
             }
         )
         st.markdown("<div style='margin-top:20px'>", unsafe_allow_html=True)
@@ -109,12 +110,12 @@ def employer_dashboard():
         section_header("Quick Actions")
         st.markdown(f"""
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:16px">
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['INFO']};border-radius:14px;padding:20px 22px">
+            <div style="background:{T()['SURFACE']};border:1px solid {INFO};border-radius:14px;padding:20px 22px">
                 <div style="font-size:22px;margin-bottom:8px">📌</div>
                 <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Post a Job</div>
                 <div style="font-size:12px;color:{T()['MUTED']}">Publish a new opening and start receiving AI-matched candidates instantly.</div>
             </div>
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['WARNING']};border-radius:14px;padding:20px 22px">
+            <div style="background:{T()['SURFACE']};border:1px solid {WARNING};border-radius:14px;padding:20px 22px">
                 <div style="font-size:22px;margin-bottom:8px">📥</div>
                 <div style="font-size:14px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Review Applications</div>
                 <div style="font-size:12px;color:{T()['MUTED']}">View AI scores, update statuses, and send feedback to candidates.</div>

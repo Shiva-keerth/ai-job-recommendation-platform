@@ -16,6 +16,7 @@ import json
 import streamlit as st
 import pandas as pd
 from collections import Counter
+from modules.theme import T, SUCCESS, get_theme
 
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -323,10 +324,13 @@ def render_market_predictor(user_email: str):
     with col_emerg:
         st.markdown("**Emerging / High-Growth Skills**")
         for s in cat_emerging:
+            _p = T()
+            _em_bg = "#E1F5EE" if get_theme() == "light" else "#0f3d1f"
+            _em_fg = "#085041" if get_theme() == "light" else "#6ee7b7"
             st.markdown(
                 f'<div style="display:flex;justify-content:space-between;align-items:center;'
-                f'padding:5px 8px;margin-bottom:4px;background:#E1F5EE;'
-                f'border-radius:6px;font-size:13px;color:#085041">'
+                f'padding:5px 8px;margin-bottom:4px;background:{_em_bg};'
+                f'border-radius:6px;font-size:13px;color:{_em_fg}">'
                 f'<span>{s}</span>'
                 f'<span style="font-size:11px">↑ Trending</span>'
                 f'</div>',
@@ -346,10 +350,12 @@ def render_market_predictor(user_email: str):
     styled_rows = []
     for _, row in sal_df.iterrows():
         is_selected = row["Category"] == selected_cat
-        bg = "#E1F5EE" if is_selected else "var(--color-background-secondary)"
+        _sel_bg = "#E1F5EE" if get_theme() == "light" else "#0f3d1f"
+        bg = _sel_bg if is_selected else "var(--color-background-secondary)"
+        _row_fg = T()["TEXT"]
         styled_rows.append(
             f'<div style="display:flex;justify-content:space-between;padding:7px 10px;'
-            f'margin-bottom:4px;background:{bg};border-radius:6px;font-size:13px">'
+            f'margin-bottom:4px;background:{bg};border-radius:6px;font-size:13px;color:{_row_fg}">'
             f'<span>{"→ " if is_selected else ""}{row["Category"]}</span>'
             f'<span style="font-weight:500">₹{int(row["Avg ₹/mo"]):,}/mo &nbsp;·&nbsp; ₹{row["LPA"]} LPA</span>'
             f'</div>'

@@ -1,4 +1,6 @@
 import streamlit as st
+import os
+import toml
 
 
 # ── Dual palette system ────────────────────────────────────────────────────────
@@ -91,7 +93,8 @@ h1, h2, h3, h4 {{ font-family: 'DM Sans', sans-serif !important; color: {p['TEXT
 .stMarkdown h2 {{ font-size: 17px !important; margin: 20px 0 8px !important; }}
 .stMarkdown h3 {{ font-size: 15px !important; margin: 16px 0 6px !important; }}
 [data-testid="stTextInput"] input, [data-testid="stTextArea"] textarea,
-[data-testid="stSelectbox"] > div > div, [data-testid="stMultiSelect"] > div > div {{
+[data-testid="stSelectbox"] > div > div,
+[data-testid="stMultiSelect"] [data-baseweb="select"], [data-testid="stMultiSelect"] [data-baseweb="select"] > div {{
     background: {p['INPUT_BG']} !important; border: 1px solid {p['INPUT_BORDER']} !important;
     border-radius: 8px !important; color: {p['INPUT_TEXT']} !important;
     font-family: 'DM Sans', sans-serif !important; font-size: 14px !important; transition: border-color 0.15s !important;
@@ -206,6 +209,8 @@ hr {{ border-color: {p['CARD_BORDER']} !important; margin: 20px 0 !important; }}
 [data-testid="stFileUploader"] section {{ background: {p['FILE_UP_BG']} !important; }}
 [data-testid="stFileUploader"] section > div {{ color: {p['TEXT']} !important; }}
 [data-testid="stFileUploadDropzone"] {{ background: {p['FILE_UP_BG']} !important; color: {p['TEXT']} !important; }}
+[data-testid="stFileUploader"] button {{ background: {p['BTN_SEC_BG']} !important; color: {p['BTN_SEC_TEXT']} !important; border: 1px solid {p['BTN_SEC_BORDER']} !important; border-radius: 8px !important; }}
+[data-testid="stFileUploader"] button:hover {{ border-color: #E8394D !important; color: #E8394D !important; background: {p['HOVER_BG']} !important; }}
 
 /* ── Success/warning/error/info boxes ── */
 [data-testid="stAlert"] div {{ color: inherit !important; }}
@@ -226,6 +231,42 @@ def inject_global_css():
 
 # ── Theme toggle widget ───────────────────────────────────────────────────────
 
+def _update_config_toml(theme: str):
+    config_dir = ".streamlit"
+    config_path = os.path.join(config_dir, "config.toml")
+    
+    if not os.path.exists(config_dir):
+        os.makedirs(config_dir)
+        
+    config = {}
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r") as f:
+                config = toml.load(f)
+        except Exception:
+            pass
+            
+    if "theme" not in config:
+        config["theme"] = {}
+        
+    target_base = "light" if theme == "light" else "dark"
+    # Only update if changed
+    if config["theme"].get("base") != target_base:
+        config["theme"]["base"] = target_base
+        config["theme"]["primaryColor"] = "#E8394D"
+        
+        if theme == "light":
+            config["theme"]["backgroundColor"] = LIGHT_PALETTE["BG"]
+            config["theme"]["secondaryBackgroundColor"] = LIGHT_PALETTE["SURFACE"]
+            config["theme"]["textColor"] = LIGHT_PALETTE["TEXT"]
+        else:
+            config["theme"]["backgroundColor"] = DARK_PALETTE["BG"]
+            config["theme"]["secondaryBackgroundColor"] = DARK_PALETTE["SURFACE"]
+            config["theme"]["textColor"] = DARK_PALETTE["TEXT"]
+            
+        with open(config_path, "w") as f:
+            toml.dump(config, f)
+
 def render_theme_toggle():
     """Render a dark/light toggle in the sidebar."""
     current = get_theme()
@@ -233,12 +274,15 @@ def render_theme_toggle():
     with c1:
         if st.button("☀️ Light", use_container_width=True,
                       type="primary" if current == "light" else "secondary"):
-            st.session_state["theme"] = "light"; st.rerun()
+            st.session_state["theme"] = "light"
+            _update_config_toml("light")
+            st.rerun()
     with c2:
         if st.button("🌙 Dark", use_container_width=True,
                       type="primary" if current == "dark" else "secondary"):
-            st.session_state["theme"] = "dark"; st.rerun()
-
+            st.session_state["theme"] = "dark"
+            _update_config_toml("dark")
+            st.rerun()
 
 # ── Page header ────────────────────────────────────────────────────────────────
 

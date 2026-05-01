@@ -14,7 +14,7 @@ from modules.theme import (
     topbar, page_header, section_header, render_stat_row,
     empty_state, skill_chips, badge, card,
     MUTED, SUCCESS, WARNING, INFO, PRIMARY, SURFACE, CARD_BORDER,
-    T, render_theme_toggle,
+    T, render_theme_toggle, get_theme,
 )
 
 PURPLE = "#a78bfa"
@@ -45,13 +45,14 @@ def admin_dashboard(admin_email: str):
             icons=["bar-chart-fill","people-fill","briefcase-fill",
                    "clipboard-data-fill","graph-up-arrow","clock-history"],
             default_index=0,
+            key=f"admin_nav_{get_theme()}",
             styles={
-                "container": {"padding":"6px 4px","background":"transparent"},
-                "icon":      {"font-size":"15px"},
+                "container": {"padding":"6px 4px","background": p["SIDEBAR_BG"]},
+                "icon":      {"font-size":"15px", "color": f"{p['MUTED']} !important"},
                 "nav-link":  {"font-size":"13px","padding":"9px 12px",
-                              "border-radius":"8px","margin":"1px 0","color":"#8b949e"},
-                "nav-link-selected": {"background":"rgba(232,57,77,0.12)",
-                                      "color":"#E8394D","font-weight":"600"},
+                              "border-radius":"8px","margin":"1px 0","color": f"{p['TEXT']} !important"},
+                "nav-link-selected": {"background":"rgba(232,57,77,0.12) !important",
+                                      "color":"#E8394D !important","font-weight":"600"},
             }
         )
         st.markdown("<div style='margin-top:20px'>", unsafe_allow_html=True)
@@ -313,8 +314,7 @@ def admin_dashboard(admin_email: str):
             "Job Title":"Job Title","Score":"Score","Status":"Status",
             "Applied At":"Applied At","Job Source":"Source",
         })
-        st.dataframe(display[["ID","Candidate","Job Title","Score","Status","Applied At","Source"]],
-                     use_container_width=True, hide_index=True)
+        st.dataframe(display[["ID","Candidate","Job Title","Score","Status","Applied At","Source"]], use_container_width=True, hide_index=True)
 
     # ══════════════════════════════════════════════════════════════════════
     # SKILL DEMAND

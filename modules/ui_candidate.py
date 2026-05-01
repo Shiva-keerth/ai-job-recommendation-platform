@@ -16,7 +16,7 @@ from modules.theme import (
     topbar, page_header, section_header, render_stat_row,
     empty_state, skill_chips, score_bar_html, match_badge,
     badge, card, MUTED, SUCCESS, WARNING, INFO, PRIMARY,
-    SURFACE, CARD_BORDER, T, render_theme_toggle,
+    SURFACE, CARD_BORDER, T, render_theme_toggle, get_theme,
 )
 
 
@@ -161,15 +161,16 @@ def candidate_dashboard(user_email: str):
                 "envelope-paper-fill", "file-earmark-person-fill",
             ],
             default_index=0,
+            key=f"cand_nav_{get_theme()}",
             styles={
-                "container": {"padding": "6px 4px", "background": "transparent"},
-                "icon":      {"font-size": "15px"},
+                "container": {"padding": "6px 4px", "background": p["SIDEBAR_BG"]},
+                "icon":      {"font-size": "15px", "color": f"{p['MUTED']} !important"},
                 "nav-link":  {"font-size": "13px", "padding": "9px 12px",
                               "border-radius": "8px", "margin": "1px 0",
-                              "color": "#8b949e"},
+                              "color": f"{p['TEXT']} !important"},
                 "nav-link-selected": {
-                    "background": "rgba(232,57,77,0.12)",
-                    "color": "#E8394D", "font-weight": "600",
+                    "background": "rgba(232,57,77,0.12) !important",
+                    "color": "#E8394D !important", "font-weight": "600",
                 },
             }
         )
@@ -253,19 +254,19 @@ def candidate_dashboard(user_email: str):
         section_header("New Features", "Recently added to your dashboard")
         st.markdown(f"""
         <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px">
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['SUCCESS']};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {SUCCESS};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">💪</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Profile Strength</div>
                 <div style="font-size:11px;color:{T()['MUTED']}">See how competitive your profile is</div>
             </div>
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['WARNING']};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {WARNING};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">💰</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Salary Estimator</div>
                 <div style="font-size:11px;color:{T()['MUTED']}">Real salary bands from 1200+ jobs</div>
             </div>
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {T()['INFO']};
+            <div style="background:{T()['SURFACE']};border:1px solid {T()['CARD_BORDER']};border-top:2px solid {INFO};
                         border-radius:12px;padding:14px;text-align:center">
                 <div style="font-size:20px;margin-bottom:6px">✉️</div>
                 <div style="font-size:13px;font-weight:700;color:{T()['TEXT_HEADING']};margin-bottom:4px">Cover Letter</div>
@@ -292,7 +293,7 @@ def candidate_dashboard(user_email: str):
             if saved:
                 skills_saved = [s.strip() for s in saved[1].split(",") if s.strip()]
                 st.markdown(f"""
-                <div style="background:{T()['SURFACE']};border:1px solid {T()['SUCCESS']};border-radius:14px;padding:20px 22px;margin-bottom:12px">
+                <div style="background:{T()['SURFACE']};border:1px solid {SUCCESS};border-radius:14px;padding:20px 22px;margin-bottom:12px">
                     <div style="display:flex;align-items:center;gap:12px">
                         <span style="font-size:28px">✅</span>
                         <div>
@@ -335,7 +336,7 @@ def candidate_dashboard(user_email: str):
             _save_resume_to_db(user_email, text, skills, category)
 
             st.markdown(f"""
-            <div style="background:{T()['SURFACE']};border:1px solid {T()['SUCCESS']};border-radius:14px;padding:20px 22px;margin-bottom:12px">
+            <div style="background:{T()['SURFACE']};border:1px solid {SUCCESS};border-radius:14px;padding:20px 22px;margin-bottom:12px">
                 <div style="display:flex;align-items:center;gap:12px">
                     <span style="font-size:28px">🎉</span>
                     <div>
@@ -502,8 +503,7 @@ def candidate_dashboard(user_email: str):
 
         if df[["Rating","Comment"]].apply(lambda c: c.astype(str).str.strip().ne("")).any().any():
             with st.expander("📝 Employer Feedback"):
-                st.dataframe(df[["Job Title","Status","Rating","Comment","Updated At"]],
-                             use_container_width=True, hide_index=True)
+                st.dataframe(df[["Job Title","Status","Rating","Comment","Updated At"]], use_container_width=True, hide_index=True)
 
     # ══════════════════════════════════════════════════════════════════════
     # SKILL GAP

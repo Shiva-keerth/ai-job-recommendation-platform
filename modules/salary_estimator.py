@@ -14,6 +14,7 @@ import pandas as pd
 import sys, os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import JOBS_CSV
+from modules.theme import T
 
 
 # ── Salary parsing ─────────────────────────────────────────────────────────────
@@ -165,8 +166,7 @@ def render_salary_estimator(user_email: str):
 
     # ── Show detected specialization ──
     if subcategory:
-        from modules.theme import T as _T
-        _p = _T()
+        _p = T()
         st.markdown(
             f'<div style="background:{_p["SURFACE"]};border:1px solid #3b82f6;border-radius:10px;'
             f'padding:10px 16px;margin-bottom:12px;font-size:13px;color:{_p["MUTED"]}">'
